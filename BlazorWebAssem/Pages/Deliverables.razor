@@ -1,0 +1,262 @@
+﻿@page "/deliverables"
+
+<h3>Deliverables</h3>
+
+<button @onclick="() => DisplayCourseColourOptions()">Set Colours By Course</button>
+<button @onclick="() => DisplayForm()">Add a Deliverable</button>
+
+<!--Displaying the table-->
+@try
+{
+    @if (deliverables.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>    </th>  <th>     </th>   <th>Course Code</th>   <th>Task</th>   <th>Due Date</th>   <th>Additional Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Deliverable deliverable in deliverables)
+                {
+                    <tr bgcolor ="@CourseColours(deliverable.CourseCode)">
+                        <td>
+                            <button type="button" class="close" @onclick="() => Remove(deliverable)" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </td>
+                        <td><input type="checkbox" @bind="deliverable.IsDone" @onclick="() => StateHasChanged()" /></td>
+
+                        <td><input @bind-value="deliverable.CourseCode" @bind-value:event="oninput" /></td>
+                        <td><input @bind-value="deliverable.Task" @bind-value:event="oninput" /> </td>
+                        <td><input @bind-value="deliverable.DueDate" @bind-value:event="oninput" type="date" /></td>
+                        <td><input @bind-value="deliverable.AdditionalNotes" @bind-value:event="oninput" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+catch (System.NullReferenceException) { }
+
+<!--Displaying the Modal-->
+<div id ="modal "class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Task</h5>
+                <button type="button" class="close" @onclick="()=>Close()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="courseCode" align="right">Course Code: </label>
+                <input id="courseCode" placeholder="Course Code" @bind-value="newCoursecode" @bind-value:event="oninput" />
+                <br />
+
+                <label for="task" align="right"> Task: </label>
+                <input id="task" placeholder="Task" @bind-value="newTask" @bind-value:event="oninput" />
+                <br />
+
+                <label for="duedate" align="right">Due Date: </label>
+                <input id="duedate" type="date" placeholder="Due Date" @bind-value="newDueDate" @bind-value:event="oninput" />
+                <br />
+
+                <label for="notes" align="right">Additional Notes: </label>
+                <input id="notes" placeholder="Additional Notes" @bind-value="newNote" @bind-value:event="oninput" />
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick="() => { AddDeliverable(); StateHasChanged();  }">Add </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Displaying Course Colour Options-->
+<div id="modal" class="modal @ModalClass2" tabindex="-1" role="dialog" style="display:@ModalDisplay2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Course Colours</h5>
+                <button type="button" class="close" @onclick="()=>CloseCourseColourOptions()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="numCourses" align="right">Number of Courses: </label>
+                <input type="number" id="numCourses" min="0" placeholder="Enter Number of Courses" @bind-value="NumberOfCourses" @bind-value:event="oninput" />
+                <button type="submit" @onclick="() => Initialize()">Confirm</button>
+                <br />
+
+                <EditForm Model="@courses">
+                    @if (courses.Any())
+                    {
+                        @foreach (Courses course in courses)
+                        {
+                            <label for="course" align="right"> Course Code: </label>
+                            <input id="course" placeholder="Course Code" @bind-value="course.CourseCode" @bind-value:event="oninput" />
+                            <br />
+                            <label for="course" align="right"> Colour: </label>
+                            <input id="course" placeholder="Enter Colour" @bind-value="course.Colour" @bind-value:event="oninput" />
+                            <br />
+                            <br />
+                        }
+                    }
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => CloseCourseColourOptions()">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+    //Everything below this is for the Course Colour Modal -----------------------------------------------------------
+    public string ModalDisplay2 = "none;";
+    public string ModalClass2 = "";
+
+    public int NumberOfCourses = 0;
+    public int PrevInput = 0;
+
+    public class Courses
+    {
+        public string CourseCode { get; set; }
+        public string Colour { get; set; }
+
+        public Courses(string courseCode, string colour)
+        {
+            CourseCode = courseCode;
+            Colour = colour;
+        }
+    }
+
+    public List<Courses> courses = new List<Courses>();
+
+    public void Initialize()
+    {
+        if (NumberOfCourses - PrevInput < 0) //this means that the user wants to remove courses
+        {
+            for (int i = 0; i < Abs(NumberOfCourses - PrevInput); i++)
+            {
+                courses.RemoveAt(courses.Count-1);
+                WriteLine(courses.Count);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < NumberOfCourses - PrevInput; i++) //this means that the user wants to add more courses
+            {
+                courses.Add(new Courses("", ""));
+                WriteLine(courses.Count);
+            }
+        }
+
+        PrevInput = NumberOfCourses;
+    }
+
+    public void DisplayCourseColourOptions()
+    {
+        ModalDisplay2 = "block;";
+        ModalClass2 = "Show";
+        StateHasChanged();
+    }
+
+    public void CloseCourseColourOptions()
+    {
+        ModalDisplay2 = "none";
+        ModalClass2 = "";
+        StateHasChanged();
+    }
+
+    public string CourseColours(string code)
+    {
+        foreach (Courses course in courses)
+        {
+            if (course.CourseCode == code)
+            {
+                return course.Colour;
+            }
+        }
+        return "grey";
+    }
+
+
+    //Everything below this is for the Deliverable Modal -----------------------------------------------------------
+    public string ModalDisplay = "none;";
+    public string ModalClass = "";
+
+
+    //initializing variables
+    public List<Deliverable> deliverables = new List<Deliverable>();
+
+    Deliverable newDeliverable;
+    string newCoursecode;
+    string newTask;
+    DateTime newDueDate = DateTime.Now;
+    string newNote;
+
+
+    //deliverable class
+    public class Deliverable
+    {
+        public string CourseCode { get; set; } = "";
+        public string Task { get; set; } = "";
+        public DateTime DueDate { get; set; } = DateTime.Now.Date;
+        public string AdditionalNotes { get; set; } = "";
+        public bool IsDone { get; set; } = false;
+
+        public Deliverable(string courseCode, string task, DateTime dueDate, string note)
+        {
+            CourseCode = courseCode;
+            Task = task;
+            DueDate = dueDate.Date;
+            AdditionalNotes = note;
+        }
+    }
+
+    public void DisplayForm()
+    {
+        ModalDisplay = "block;";
+        ModalClass = "Show";
+        StateHasChanged();
+    }
+
+    public void Close()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ResetForm();
+        StateHasChanged();
+    }
+
+    private void AddDeliverable()
+    {
+        //adding deliverable to list
+        deliverables.Add(newDeliverable = new Deliverable(newCoursecode, newTask, newDueDate, newNote));
+
+        ResetForm();
+
+        //reloading page
+        Close();
+    }
+
+    private void ResetForm()
+    {
+        //resetting the values
+        newCoursecode = "";
+        newDueDate = DateTime.Now;
+        newTask = "";
+        newNote = "";
+    }
+
+    private void Remove(Deliverable deliverable)
+    {
+        deliverables.Remove(deliverable);
+    }
+}
+

@@ -1,0 +1,82 @@
+﻿@page "/todo"
+<h3>ToDo</h3>
+
+<input @bind-value="newCategoryTitle" @bind-value:event="oninput" />
+<button type="button" @onclick ="() => AddCategory()">Add a To Do Category</button>
+
+<table cellpadding="20" > 
+    <thead>
+        <th>Here are your tasks:</th>
+    </thead>
+
+    <tbody class="d-flex flex-wrap" >
+        @foreach (Category category in categories)
+        {
+            <td style="border: 1px solid;">
+            @if (categories.Any())
+            {
+                <tr>
+                    <button type="button" class="close" @onclick="() => categories.Remove(category)" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4><input @bind-value="category.Title" @bind-value:event="oninput" /></h4>
+                </tr>
+
+                <tr>
+                    @foreach (ToDoObject todos in category.ListToDos)
+                    {
+                        <tr>
+                            <button type="button" class="close" @onclick="() => category.ListToDos.Remove(todos)" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>     
+                            </button>
+                            <input type="checkbox" @bind="todos.IsDone" />
+
+                            <input @bind-value="@todos.ThingToDo" @bind-value:event="oninput" />
+                        </tr>
+                     }
+                    
+                    <tr>
+                        <td><input placeholder="Add a New ToDo" @bind-value="category.TempToDo" @bind-value:event="oninput" /></td>
+                        <td><button type="button" @onclick="() => AddToDo(category)"> Add New ToDo </button></td>
+                    </tr>
+                </tr>
+
+            }
+            </td>
+        }
+    </tbody>
+</table>
+
+    @code {
+
+        public string newCategoryTitle = "";
+        public List<Category> categories = new List<Category>();
+
+        public class Category
+        {
+            public string Title { get; set; } = "";
+            public string TempToDo { get; set; } = "";
+            public List<ToDoObject> ListToDos = new List<ToDoObject>();
+        }
+
+        public class ToDoObject
+        {
+            public string ThingToDo { get; set; } = "";
+            public bool IsDone { get; set; } = false;
+        }
+
+        public void AddCategory()
+        {
+            if (!string.IsNullOrEmpty(newCategoryTitle))
+            {
+                categories.Add(new Category { Title = newCategoryTitle });
+                newCategoryTitle = "";
+            }
+        }
+
+        public void AddToDo(Category category)
+        {
+            category.ListToDos.Add(new ToDoObject { ThingToDo = category.TempToDo });
+            category.TempToDo = "";
+        }
+    }
