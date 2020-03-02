@@ -25,11 +25,13 @@ obj\Debug\netstandard2.1\blazor\linker\Mono.WebAssembly.Interop.dll
 obj\Debug\netstandard2.1\blazor\linker\mscorlib.dll
 obj\Debug\netstandard2.1\blazor\linker\netstandard.dll
 obj\Debug\netstandard2.1\blazor\linker\Newtonsoft.Json.dll
+obj\Debug\netstandard2.1\blazor\linker\Radzen.Blazor.dll
 obj\Debug\netstandard2.1\blazor\linker\System.ComponentModel.DataAnnotations.dll
 obj\Debug\netstandard2.1\blazor\linker\System.Core.dll
 obj\Debug\netstandard2.1\blazor\linker\System.Data.dll
 obj\Debug\netstandard2.1\blazor\linker\System.dll
 obj\Debug\netstandard2.1\blazor\linker\System.Drawing.Common.dll
+obj\Debug\netstandard2.1\blazor\linker\System.Linq.Dynamic.Core.dll
 obj\Debug\netstandard2.1\blazor\linker\System.Net.Http.dll
 obj\Debug\netstandard2.1\blazor\linker\System.Numerics.dll
 obj\Debug\netstandard2.1\blazor\linker\System.Runtime.CompilerServices.Unsafe.dll
@@ -41,4 +43,3 @@ obj\Debug\netstandard2.1\blazor\linker\System.Xml.Linq.dll
 obj\Debug\netstandard2.1\blazor\linker\TypeSupport.dll
 obj\Debug\netstandard2.1\blazor\linker\WebAssembly.Bindings.dll
 obj\Debug\netstandard2.1\blazor\linker\WebAssembly.Net.Http.dll
-obj\Debug\netstandard2.1\blazor\linker\BlazorWebAssem.pdb

@@ -5,9 +5,19 @@
 <button type="button" @onclick ="() => AddCategory()">Add a To Do Category</button>
 
 <table cellpadding="20" > 
-    <thead>
-        <th>Here are your tasks:</th>
-    </thead>
+    @if (categories.Any())
+    {
+        <thead>
+            <th>Here are your tasks:</th>
+        </thead>
+    }
+    else
+    {
+        <thead>
+            <th>You currently do not have any tasks.</th>
+        </thead>
+    }
+
 
     <tbody class="d-flex flex-wrap" >
         @foreach (Category category in categories)

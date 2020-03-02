@@ -13,6 +13,15 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)radzen.blazor\2.2.6\contentFiles\any\netstandard2.1\Properties\launchSettings.json" Condition="Exists('$(NuGetPackageRoot)radzen.blazor\2.2.6\contentFiles\any\netstandard2.1\Properties\launchSettings.json')">
+      <NuGetPackageId>Radzen.Blazor</NuGetPackageId>
+      <NuGetPackageVersion>2.2.6</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>Properties\launchSettings.json</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Content Include="$(NuGetPackageRoot)devexpress.blazor\19.1.10\contentFiles\any\any\wwwroot\lib\dx-blazor\static.zip" Condition="Exists('$(NuGetPackageRoot)devexpress.blazor\19.1.10\contentFiles\any\any\wwwroot\lib\dx-blazor\static.zip')">
       <NuGetPackageId>DevExpress.Blazor</NuGetPackageId>
       <NuGetPackageVersion>19.1.10</NuGetPackageVersion>
@@ -22,6 +31,7 @@
     </Content>
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)radzen.blazor\2.2.6\buildTransitive\Radzen.Blazor.props" Condition="Exists('$(NuGetPackageRoot)radzen.blazor\2.2.6\buildTransitive\Radzen.Blazor.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.protectedbrowserstorage\0.1.0-alpha.19521.1\buildTransitive\Microsoft.AspNetCore.ProtectedBrowserStorage.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.protectedbrowserstorage\0.1.0-alpha.19521.1\buildTransitive\Microsoft.AspNetCore.ProtectedBrowserStorage.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.blazor.mono\3.1.0-preview4.19578.1\build\netstandard1.0\Microsoft.AspNetCore.Blazor.Mono.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.blazor.mono\3.1.0-preview4.19578.1\build\netstandard1.0\Microsoft.AspNetCore.Blazor.Mono.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.blazor.build\3.1.0-preview4.19579.2\build\netstandard1.0\Microsoft.AspNetCore.Blazor.Build.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.blazor.build\3.1.0-preview4.19579.2\build\netstandard1.0\Microsoft.AspNetCore.Blazor.Build.props')" />

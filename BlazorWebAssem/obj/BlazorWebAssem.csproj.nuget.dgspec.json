@@ -71,6 +71,10 @@
             "Microsoft.AspNetCore.ProtectedBrowserStorage": {
               "target": "Package",
               "version": "[0.1.0-alpha.19521.1, )"
+            },
+            "Radzen.Blazor": {
+              "target": "Package",
+              "version": "[2.2.6, )"
             }
           },
           "imports": [

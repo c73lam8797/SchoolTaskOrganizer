@@ -21,9 +21,7 @@
                 {
                     <tr bgcolor ="@CourseColours(deliverable.CourseCode)">
                         <td>
-                            <button type="button" class="close" @onclick="() => Remove(deliverable)" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <RadzenButton Click="@(() => Remove(deliverable))" Icon="higlight_off" />
                         </td>
                         <td><input type="checkbox" @bind="deliverable.IsDone" @onclick="() => StateHasChanged()" /></td>
 
@@ -67,8 +65,8 @@ catch (System.NullReferenceException) { }
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @onclick="() => { AddDeliverable(); StateHasChanged();  }">Add </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Close</button>
+                <RadzenButton Click="@(() => { AddDeliverable(); StateHasChanged();  })" Text="Save" />
+                <RadzenButton Click="@(() => Close())" Icon="higlight_off" />
             </div>
         </div>
     </div>
@@ -95,11 +93,19 @@ catch (System.NullReferenceException) { }
                     {
                         @foreach (Courses course in courses)
                         {
-                            <label for="course" align="right"> Course Code: </label>
-                            <input id="course" placeholder="Course Code" @bind-value="course.CourseCode" @bind-value:event="oninput" />
-                            <br />
-                            <label for="course" align="right"> Colour: </label>
-                            <input id="course" placeholder="Enter Colour" @bind-value="course.Colour" @bind-value:event="oninput" />
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Course Code: " />
+                            </div>
+                            <div class="col-md-8">
+                               <input id="course" placeholder="Course Code" @bind-value="course.CourseCode" @bind-value:event="oninput" />
+                            </div>
+
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Colour: " />
+                            </div>
+                            <div class="col-md-8">
+                               <input id="colour" placeholder="Enter Colour" @bind-value="course.Colour" @bind-value:event="oninput"/>
+                            </div>
                             <br />
                             <br />
                         }
@@ -117,7 +123,7 @@ catch (System.NullReferenceException) { }
 @code
 {
     //Everything below this is for the Course Colour Modal -----------------------------------------------------------
-    public string ModalDisplay2 = "none;";
+    public string ModalDisplay2 = "none";
     public string ModalClass2 = "";
 
     public int NumberOfCourses = 0;
@@ -193,7 +199,8 @@ catch (System.NullReferenceException) { }
 
     //initializing variables
     public List<Deliverable> deliverables = new List<Deliverable>();
-
+    
+    //placeholder variables, which is binded to the input in the form, and is used to initialize new Deliverable objects
     Deliverable newDeliverable;
     string newCoursecode;
     string newTask;
@@ -219,14 +226,14 @@ catch (System.NullReferenceException) { }
         }
     }
 
-    public void DisplayForm()
+    public void DisplayForm() //method uses a string to change the styling of the modal to "block", which is to show
     {
         ModalDisplay = "block;";
         ModalClass = "Show";
         StateHasChanged();
     }
 
-    public void Close()
+    public void Close() //method uses as string to change the styling of the modal display to none
     {
         ModalDisplay = "none";
         ModalClass = "";
@@ -234,18 +241,18 @@ catch (System.NullReferenceException) { }
         StateHasChanged();
     }
 
-    private void AddDeliverable()
+    private void AddDeliverable() //creates a new deliverable, and adds it a list of deliverables
     {
         //adding deliverable to list
         deliverables.Add(newDeliverable = new Deliverable(newCoursecode, newTask, newDueDate, newNote));
 
-        ResetForm();
+        ResetForm(); 
 
         //reloading page
         Close();
     }
 
-    private void ResetForm()
+    private void ResetForm() //method sets all the parameters in the form back to its default
     {
         //resetting the values
         newCoursecode = "";
