@@ -1,4 +1,5 @@
 ﻿@page "/deliverables"
+@using ObjectClasses
 
 <h3>Deliverables</h3>
 
@@ -21,7 +22,7 @@
                 {
                     <tr bgcolor ="@CourseColours(deliverable.CourseCode)">
                         <td>
-                            <RadzenButton Click="@(() => Remove(deliverable))" Icon="higlight_off" />
+                            <RadzenButton Click="@(() => Remove(deliverable))" ButtonStyle="ButtonStyle.Secondary" Icon="highlight_off" />
                         </td>
                         <td><input type="checkbox" @bind="deliverable.IsDone" @onclick="() => StateHasChanged()" /></td>
 
@@ -34,10 +35,14 @@
             </tbody>
         </table>
     }
+    else{
+        <p>You currently do not have any thing due.</p>
+    }
 }
 catch (System.NullReferenceException) { }
 
-<!--Displaying the Modal-->
+<!--Displaying the Modal--> 
+
 <div id ="modal "class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -48,32 +53,33 @@ catch (System.NullReferenceException) { }
                 </button>
             </div>
             <div class="modal-body">
-                <label for="courseCode" align="right">Course Code: </label>
-                <input id="courseCode" placeholder="Course Code" @bind-value="newCoursecode" @bind-value:event="oninput" />
+                <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Course Code: " /> </div>
+                <div><input id="courseCode" placeholder="Course Code" @bind-value="newCoursecode" @bind-value:event="oninput" /></div>
                 <br />
 
-                <label for="task" align="right"> Task: </label>
-                <input id="task" placeholder="Task" @bind-value="newTask" @bind-value:event="oninput" />
+                <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Task: " /> </div>
+                <div> <input id="task" placeholder="Task" @bind-value="newTask" @bind-value:event="oninput" /> </div>
                 <br />
-
-                <label for="duedate" align="right">Due Date: </label>
-                <input id="duedate" type="date" placeholder="Due Date" @bind-value="newDueDate" @bind-value:event="oninput" />
+                
+                <div class="col-md-4 align-items-center d-flex"><RadzenLabel Text="Due Date: " /></div>
+                <div> <input id="duedate" type="date" placeholder="Due Date" @bind-value="newDueDate" @bind-value:event="oninput" /> </div>
                 <br />
-
-                <label for="notes" align="right">Additional Notes: </label>
-                <input id="notes" placeholder="Additional Notes" @bind-value="newNote" @bind-value:event="oninput" />
-
+                
+                <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Additional Notes: " /> </div>
+                <div> <input id="notes" placeholder="Additional Notes" @bind-value="newNote" @bind-value:event="oninput" /> </div>
+                
             </div>
             <div class="modal-footer">
                 <RadzenButton Click="@(() => { AddDeliverable(); StateHasChanged();  })" Text="Save" />
-                <RadzenButton Click="@(() => Close())" Icon="higlight_off" />
+                <RadzenButton Click="@(() => Close())" ButtonStyle="ButtonStyle.Secondary" Icon="highlight_off" />
             </div>
         </div>
     </div>
 </div>
 
+
 <!--Displaying Course Colour Options-->
-<div id="modal" class="modal @ModalClass2" tabindex="-1" role="dialog" style="display:@ModalDisplay2">
+<div id="modal" class="modal @ModalClass2" tabindex="-1" role="dialog" style="display:@ModalDisplay2" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -85,7 +91,7 @@ catch (System.NullReferenceException) { }
             <div class="modal-body">
                 <label for="numCourses" align="right">Number of Courses: </label>
                 <input type="number" id="numCourses" min="0" placeholder="Enter Number of Courses" @bind-value="NumberOfCourses" @bind-value:event="oninput" />
-                <button type="submit" @onclick="() => Initialize()">Confirm</button>
+                <button type="submit" @onclick="() => Initialize()"> Confirm</button>
                 <br />
 
                 <EditForm Model="@courses">
@@ -93,19 +99,12 @@ catch (System.NullReferenceException) { }
                     {
                         @foreach (Courses course in courses)
                         {
-                            <div class="col-md-4 align-items-center d-flex">
-                                <RadzenLabel Text="Course Code: " />
-                            </div>
-                            <div class="col-md-8">
-                               <input id="course" placeholder="Course Code" @bind-value="course.CourseCode" @bind-value:event="oninput" />
-                            </div>
+                            <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Course Code: " /> </div>
+                            <div class="col-md-8"> <input id="course" placeholder="Course Code" @bind-value="course.CourseCode" @bind-value:event="oninput" /> </div>
 
-                            <div class="col-md-4 align-items-center d-flex">
-                                <RadzenLabel Text="Colour: " />
-                            </div>
-                            <div class="col-md-8">
-                               <input id="colour" placeholder="Enter Colour" @bind-value="course.Colour" @bind-value:event="oninput"/>
-                            </div>
+                            <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Colour: " /> </div>
+                            <div class="col-md-8"> <input name="Color Picker" type="color" @bind-value="course.Colour" @bind-value:event="oninput"/> </div>
+                           
                             <br />
                             <br />
                         }
@@ -115,7 +114,7 @@ catch (System.NullReferenceException) { }
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => CloseCourseColourOptions()">Done</button>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 
@@ -129,17 +128,6 @@ catch (System.NullReferenceException) { }
     public int NumberOfCourses = 0;
     public int PrevInput = 0;
 
-    public class Courses
-    {
-        public string CourseCode { get; set; }
-        public string Colour { get; set; }
-
-        public Courses(string courseCode, string colour)
-        {
-            CourseCode = courseCode;
-            Colour = colour;
-        }
-    }
 
     public List<Courses> courses = new List<Courses>();
 
@@ -155,7 +143,7 @@ catch (System.NullReferenceException) { }
         }
         else
         {
-            for (int i = 0; i < NumberOfCourses - PrevInput; i++) //this means that the user wants to add more courses
+            for (int i = 0; i < NumberOfCourses - PrevInput; i++) //user is adding more courses, by default with empty strings
             {
                 courses.Add(new Courses("", ""));
                 WriteLine(courses.Count);
@@ -165,31 +153,32 @@ catch (System.NullReferenceException) { }
         PrevInput = NumberOfCourses;
     }
 
-    public void DisplayCourseColourOptions()
+    public void DisplayCourseColourOptions() //method uses a string to change the styling of the modal to "block", which is to show
     {
         ModalDisplay2 = "block;";
         ModalClass2 = "Show";
         StateHasChanged();
     }
 
-    public void CloseCourseColourOptions()
+    public void CloseCourseColourOptions()//method uses a string to change the styling of the modal to "none"
     {
         ModalDisplay2 = "none";
         ModalClass2 = "";
         StateHasChanged();
     }
 
-    public string CourseColours(string code)
+    public string CourseColours(string code) //method is passed a course code associated with the deliverable displayed.
     {
-        foreach (Courses course in courses)
+        //searches through a list of courses; if the code matches one of the courses previously inputted by the user, it will return the colour associated with that course
+        foreach (Courses course in courses) 
         {
-            if (course.CourseCode == code)
-            {
-                return course.Colour;
-            }
+            if (course.CourseCode == code){return course.Colour;}
         }
+        //otherwise, it returns a default colour of grey
         return "grey";
     }
+
+
 
 
     //Everything below this is for the Deliverable Modal -----------------------------------------------------------
@@ -207,24 +196,6 @@ catch (System.NullReferenceException) { }
     DateTime newDueDate = DateTime.Now;
     string newNote;
 
-
-    //deliverable class
-    public class Deliverable
-    {
-        public string CourseCode { get; set; } = "";
-        public string Task { get; set; } = "";
-        public DateTime DueDate { get; set; } = DateTime.Now.Date;
-        public string AdditionalNotes { get; set; } = "";
-        public bool IsDone { get; set; } = false;
-
-        public Deliverable(string courseCode, string task, DateTime dueDate, string note)
-        {
-            CourseCode = courseCode;
-            Task = task;
-            DueDate = dueDate.Date;
-            AdditionalNotes = note;
-        }
-    }
 
     public void DisplayForm() //method uses a string to change the styling of the modal to "block", which is to show
     {
@@ -248,7 +219,7 @@ catch (System.NullReferenceException) { }
 
         ResetForm(); 
 
-        //reloading page
+        //reloading page by closing the modal when a deliverable is added
         Close();
     }
 
@@ -261,7 +232,7 @@ catch (System.NullReferenceException) { }
         newNote = "";
     }
 
-    private void Remove(Deliverable deliverable)
+    private void Remove(Deliverable deliverable) //method removes a deliverable from the list 
     {
         deliverables.Remove(deliverable);
     }

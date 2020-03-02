@@ -106,6 +106,13 @@ using Radzen.Blazor;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 15 "C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\_Imports.razor"
+using ObjectClasses;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/todo")]
     public partial class ToDo : Microsoft.AspNetCore.Components.ComponentBase
     {
