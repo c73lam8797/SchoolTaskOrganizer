@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Globalization;
+using System.Collections.Generic;
+using DevExpress.Blazor;
 
 namespace ObjectClasses
 {

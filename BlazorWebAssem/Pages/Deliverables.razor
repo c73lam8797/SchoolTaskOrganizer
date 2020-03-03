@@ -14,7 +14,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>    </th>  <th>     </th>   <th>Course Code</th>   <th>Task</th>   <th>Due Date</th>   <th>Additional Notes</th>
+                    <th style="width: 5%">    </th>  <th style="width: 5%">     </th>   <th style="width: 10%">Course Code</th>   <th style="width: 20%">Task</th>   <th style="width: 10%">Due Date</th>   <th style="width: 50%">Additional Notes</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,10 +26,16 @@
                         </td>
                         <td><input type="checkbox" @bind="deliverable.IsDone" @onclick="() => StateHasChanged()" /></td>
 
-                        <td><input @bind-value="deliverable.CourseCode" @bind-value:event="oninput" /></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.CourseCode"       @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.CourseCode</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.Task"             @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.Task</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.DueDate"          @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked" type = "date">@deliverable.DueDate.ToShortDateString()</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.AdditionalNotes"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.AdditionalNotes</p></td>
+
+                        @* <td><input @bind-value="deliverable.CourseCode" @bind-value:event="oninput" /></td>
                         <td><input @bind-value="deliverable.Task" @bind-value:event="oninput" /> </td>
                         <td><input @bind-value="deliverable.DueDate" @bind-value:event="oninput" type="date" /></td>
-                        <td><input @bind-value="deliverable.AdditionalNotes" @bind-value:event="oninput" /></td>
+                        <td><input @bind-value="deliverable.AdditionalNotes" @bind-value:event="oninput" /></td> *@
+
                     </tr>
                 }
             </tbody>
@@ -121,6 +127,19 @@ catch (System.NullReferenceException) { }
 
 @code
 {
+    public bool editable = true;
+        
+    void KeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") {editable = false;}
+    }
+
+    void Clicked()
+    {
+        editable = true;
+    }
+
+
     //Everything below this is for the Course Colour Modal -----------------------------------------------------------
     public string ModalDisplay2 = "none";
     public string ModalClass2 = "";

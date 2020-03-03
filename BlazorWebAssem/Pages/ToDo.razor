@@ -22,42 +22,58 @@
     <tbody class="d-flex flex-wrap" >
         @foreach (Category category in categories)
         {
-            <td style="border: 1px solid;">
-            @if (categories.Any())
-            {
-                <tr>
-                    <button type="button" class="close" @onclick="() => categories.Remove(category)" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4><input @bind-value="category.Title" @bind-value:event="oninput" /></h4>
-                </tr>
-
-                <tr>
-                    @foreach (ToDoObject todos in category.ListToDos)
-                    {
-                        <tr>
-                            <button type="button" class="close" @onclick="() => category.ListToDos.Remove(todos)" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>     
-                            </button>
-                            <input type="checkbox" @bind="todos.IsDone" />
-
-                            <input @bind-value="@todos.ThingToDo" @bind-value:event="oninput" />
-                        </tr>
-                     }
-                    
-                    <tr>
-                        <td><input placeholder="Add a New ToDo" @bind-value="category.TempToDo" @bind-value:event="oninput" /></td>
-                        <td><button type="button" @onclick="() => AddToDo(category)"> Add New ToDo </button></td>
+            <RadzenCard Style="width:400px;">
+                <td>
+                @if (categories.Any())
+                {
+                    <tr >
+                        <button type="button" class="close" @onclick="() => categories.Remove(category)" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h2 contenteditable="@editable"  @bind-value="category.Title"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">@category.Title</h2>
                     </tr>
-                </tr>
 
-            }
-            </td>
+                    <tr>
+                        @foreach (ToDoObject todos in category.ListToDos)
+                        {
+                            <tr>
+                                <button type="button" class="close" @onclick="() => category.ListToDos.Remove(todos)" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>     
+                                </button>
+
+                                <table> 
+                                    <td><input type="checkbox" @bind="todos.IsDone" /></td>
+                                    <td style="width: 20px"><p contenteditable="@editable"  @bind-value="todos.ThingToDo"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">@todos.ThingToDo</p></td>
+                                </table>
+                            </tr>
+                        }
+                        
+                        <tr>
+                            <td><input placeholder="Add a New ToDo" @bind-value="category.TempToDo" @bind-value:event="oninput" /></td>
+                            <td><button type="button" @onclick="() => AddToDo(category)"> Add </button></td>
+                        </tr>
+                    </tr>
+
+                }
+                </td>
+            </RadzenCard>
         }
     </tbody>
 </table>
 
     @code {
+
+        public bool editable = true;
+        
+        void KeyPress(KeyboardEventArgs e)
+        {
+            if (e.Key == "Enter"){editable = false;}  
+        }
+
+        void Clicked()
+        {
+            editable = true;
+        }
 
         public string newCategoryTitle = "";
         public List<Category> categories = new List<Category>();
