@@ -41,7 +41,6 @@ C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\nets
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\RazorDeclaration\Pages\ToDo.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\RazorDeclaration\Shared\MainLayout.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\RazorDeclaration\Shared\NavMenu.razor.g.cs
-C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\RazorDeclaration\Shared\SurveyPrompt.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\RazorDeclaration\_Imports.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\BlazorWebAssem.AssemblyInfoInputs.cache
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\BlazorWebAssem.AssemblyInfo.cs
@@ -108,7 +107,6 @@ C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\nets
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\Razor\Pages\ToDo.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\Razor\Shared\MainLayout.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\Razor\Shared\NavMenu.razor.g.cs
-C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\Razor\Shared\SurveyPrompt.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\Razor\_Imports.razor.g.cs
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\BlazorWebAssem.dll
 C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\obj\Debug\netstandard2.1\BlazorWebAssem.pdb

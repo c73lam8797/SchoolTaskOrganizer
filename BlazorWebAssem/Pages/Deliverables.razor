@@ -30,12 +30,6 @@
                         <td><p contenteditable="@editable"  @bind-value="deliverable.Task"             @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.Task</p></td>
                         <td><p contenteditable="@editable"  @bind-value="deliverable.DueDate"          @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked" type = "date">@deliverable.DueDate.ToShortDateString()</p></td>
                         <td><p contenteditable="@editable"  @bind-value="deliverable.AdditionalNotes"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.AdditionalNotes</p></td>
-
-                        @* <td><input @bind-value="deliverable.CourseCode" @bind-value:event="oninput" /></td>
-                        <td><input @bind-value="deliverable.Task" @bind-value:event="oninput" /> </td>
-                        <td><input @bind-value="deliverable.DueDate" @bind-value:event="oninput" type="date" /></td>
-                        <td><input @bind-value="deliverable.AdditionalNotes" @bind-value:event="oninput" /></td> *@
-
                     </tr>
                 }
             </tbody>
@@ -47,7 +41,7 @@
 }
 catch (System.NullReferenceException) { }
 
-<!--Displaying the Modal--> 
+@* Displaying the Modal *@
 
 <div id ="modal "class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
     <div class="modal-dialog" role="document">
@@ -84,7 +78,7 @@ catch (System.NullReferenceException) { }
 </div>
 
 
-<!--Displaying Course Colour Options-->
+@* Displaying Course Colour Options*@
 <div id="modal" class="modal @ModalClass2" tabindex="-1" role="dialog" style="display:@ModalDisplay2" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
