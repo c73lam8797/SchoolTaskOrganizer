@@ -43,3 +43,4 @@ obj\Debug\netstandard2.1\blazor\linker\System.Xml.Linq.dll
 obj\Debug\netstandard2.1\blazor\linker\TypeSupport.dll
 obj\Debug\netstandard2.1\blazor\linker\WebAssembly.Bindings.dll
 obj\Debug\netstandard2.1\blazor\linker\WebAssembly.Net.Http.dll
+obj\Debug\netstandard2.1\blazor\linker\BlazorWebAssem.pdb

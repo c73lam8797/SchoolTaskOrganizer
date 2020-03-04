@@ -24,7 +24,7 @@
         {
             <RadzenCard Style="width:400px;">
                 <td>
-                @if (categories.Any())
+                @if (categories.Any()) 
                 {
                     <tr >
                         <button type="button" class="close" @onclick="() => categories.Remove(category)" aria-label="Close">
@@ -43,13 +43,13 @@
 
                                 <table> 
                                     <td><input type="checkbox" @bind="todos.IsDone" /></td>
-                                    <td style="width: 20px"><p contenteditable="@editable"  @bind-value="todos.ThingToDo"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">@todos.ThingToDo</p></td>
+                                    <td style="width: 80px"><p contenteditable="@editable"  @bind-value="todos.ThingToDo"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">@todos.ThingToDo</p></td>
                                 </table>
                             </tr>
                         }
                         
                         <tr>
-                            <td><input placeholder="Add a New ToDo" @bind-value="category.TempToDo" @bind-value:event="oninput" /></td>
+                            <td><input placeholder="Add a New ToDo" @bind-value="@category.TempToDo" @bind-value:event="oninput" /></td>
                             <td><button type="button" @onclick="() => AddToDo(category)"> Add </button></td>
                         </tr>
                     </tr>
@@ -64,10 +64,10 @@
     @code {
 
         public bool editable = true;
-        
+
         void KeyPress(KeyboardEventArgs e)
         {
-            if (e.Key == "Enter"){editable = false;}  
+            if (e.Key == "Enter"){editable = false;}
         }
 
         void Clicked()
@@ -75,34 +75,25 @@
             editable = true;
         }
 
-        public string newCategoryTitle = "";
+        public string newCategoryTitle = " ";
         public List<Category> categories = new List<Category>();
 
-        public class Category
-        {
-            public string Title { get; set; } = "";
-            public string TempToDo { get; set; } = "";
-            public List<ToDoObject> ListToDos = new List<ToDoObject>();
-        }
-
-        public class ToDoObject
-        {
-            public string ThingToDo { get; set; } = "";
-            public bool IsDone { get; set; } = false;
-        }
 
         public void AddCategory()
         {
             if (!string.IsNullOrEmpty(newCategoryTitle))
             {
                 categories.Add(new Category { Title = newCategoryTitle });
-                newCategoryTitle = "";
+                newCategoryTitle = " ";
             }
         }
 
         public void AddToDo(Category category)
         {
-            category.ListToDos.Add(new ToDoObject { ThingToDo = category.TempToDo });
-            category.TempToDo = "";
+            if (!string.IsNullOrEmpty(category.TempToDo))
+            {
+                category.ListToDos.Add(new ToDoObject {ThingToDo = category.TempToDo});
+                category.TempToDo = " ";
+            }
         }
     }

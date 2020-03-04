@@ -14,7 +14,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 5%">    </th>  <th style="width: 5%">     </th>   <th style="width: 10%">Course Code</th>   <th style="width: 20%">Task</th>   <th style="width: 10%">Due Date</th>   <th style="width: 50%">Additional Notes</th>
+                    <th style="width: 5%">    </th>  <th style="width: 5%">     </th>   <th style="width: 15%">Course Code</th>   <th style="width: 20%">Task</th>   <th style="width: 10%">Due Date</th>   <th style="width: 45%">Additional Notes</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,10 +26,10 @@
                         </td>
                         <td><input type="checkbox" @bind="deliverable.IsDone" @onclick="() => StateHasChanged()" /></td>
 
-                        <td><p contenteditable="@editable"  @bind-value="deliverable.CourseCode"       @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.CourseCode</p></td>
-                        <td><p contenteditable="@editable"  @bind-value="deliverable.Task"             @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.Task</p></td>
-                        <td><p contenteditable="@editable"  @bind-value="deliverable.DueDate"          @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked" type = "date">@deliverable.DueDate.ToShortDateString()</p></td>
-                        <td><p contenteditable="@editable"  @bind-value="deliverable.AdditionalNotes"  @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">              @deliverable.AdditionalNotes</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.CourseCode"       @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e, deliverable))" @onclick="@Clicked">              @deliverable.CourseCode</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.Task"             @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e, deliverable))" @onclick="@Clicked">              @deliverable.Task</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.DueDate"          @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e, deliverable))" @onclick="@Clicked" type = "date">@deliverable.DueDate.ToShortDateString()</p></td>
+                        <td><p contenteditable="@editable"  @bind-value="deliverable.AdditionalNotes"  @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e, deliverable))" @onclick="@Clicked">              @deliverable.AdditionalNotes</p></td>
                     </tr>
                 }
             </tbody>
@@ -121,18 +121,6 @@ catch (System.NullReferenceException) { }
 
 @code
 {
-    public bool editable = true;
-        
-    void KeyPress(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter") {editable = false;}
-    }
-
-    void Clicked()
-    {
-        editable = true;
-    }
-
 
     //Everything below this is for the Course Colour Modal -----------------------------------------------------------
     public string ModalDisplay2 = "none";
@@ -183,7 +171,7 @@ catch (System.NullReferenceException) { }
     public string CourseColours(string code) //method is passed a course code associated with the deliverable displayed.
     {
         //searches through a list of courses; if the code matches one of the courses previously inputted by the user, it will return the colour associated with that course
-        foreach (Courses course in courses) 
+        foreach (Courses course in courses)
         {
             if (course.CourseCode == code){return course.Colour;}
         }
@@ -201,7 +189,7 @@ catch (System.NullReferenceException) { }
 
     //initializing variables
     public List<Deliverable> deliverables = new List<Deliverable>();
-    
+
     //placeholder variables, which is binded to the input in the form, and is used to initialize new Deliverable objects
     Deliverable newDeliverable;
     string newCoursecode;
@@ -209,7 +197,12 @@ catch (System.NullReferenceException) { }
     DateTime newDueDate = DateTime.Now;
     string newNote;
 
-
+    public void Check(Deliverable deliverable)
+    {
+        if (string.IsNullOrEmpty(deliverable.CourseCode)){ deliverable.CourseCode = "----";}
+    }
+    
+    
     public void DisplayForm() //method uses a string to change the styling of the modal to "block", which is to show
     {
         ModalDisplay = "block;";
@@ -230,7 +223,7 @@ catch (System.NullReferenceException) { }
         //adding deliverable to list
         deliverables.Add(newDeliverable = new Deliverable(newCoursecode, newTask, newDueDate, newNote));
 
-        ResetForm(); 
+        ResetForm();
 
         //reloading page by closing the modal when a deliverable is added
         Close();
@@ -239,15 +232,30 @@ catch (System.NullReferenceException) { }
     private void ResetForm() //method sets all the parameters in the form back to its default
     {
         //resetting the values
-        newCoursecode = "";
+        newCoursecode = " ";
         newDueDate = DateTime.Now;
-        newTask = "";
-        newNote = "";
+        newTask = " ";
+        newNote = " ";
     }
 
     private void Remove(Deliverable deliverable) //method removes a deliverable from the list 
     {
         deliverables.Remove(deliverable);
+    }
+
+
+    //for edit on click
+    public bool editable = true;
+
+    void KeyPress(KeyboardEventArgs e, Deliverable deliverable)
+    {
+        Check(deliverable);
+        if (e.Key == "Enter") {editable = false;}
+    }
+
+    void Clicked()
+    {
+        editable = true;
     }
 }
 
