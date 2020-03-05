@@ -124,6 +124,13 @@ using System.Collections;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 18 "C:\Users\charm\source\repos\BlazorWebAssemSolution\BlazorWebAssem\_Imports.razor"
+using BlazorWebAssem.TaskOrganizer.Deliverable;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Homepage : Microsoft.AspNetCore.Components.ComponentBase
     {

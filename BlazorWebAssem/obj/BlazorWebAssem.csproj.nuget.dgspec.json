@@ -44,11 +44,11 @@
           "dependencies": {
             "Blazor-State": {
               "target": "Package",
-              "version": "[3.0.1, )"
+              "version": "[3.2.0, )"
             },
             "DevExpress.Blazor": {
               "target": "Package",
-              "version": "[19.1.10, )"
+              "version": "[19.2.4, )"
             },
             "Microsoft.AspNetCore.Blazor": {
               "target": "Package",
@@ -68,13 +68,47 @@
               "target": "Package",
               "version": "[3.1.0-preview4.19579.2, )"
             },
-            "Microsoft.AspNetCore.ProtectedBrowserStorage": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[0.1.0-alpha.19521.1, )"
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.AspNetCore.Routing.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Net.Http.Headers": {
+              "target": "Package",
+              "version": "[2.2.8, )"
             },
             "Radzen.Blazor": {
               "target": "Package",
-              "version": "[2.2.6, )"
+              "version": "[2.3.2, )"
             }
           },
           "imports": [
@@ -92,7 +126,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

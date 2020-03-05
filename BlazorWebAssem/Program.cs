@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
-using static BlazorWebAssem.Pages.Deliverables;
 
 namespace BlazorWebAssem
 {

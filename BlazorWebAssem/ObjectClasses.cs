@@ -7,22 +7,22 @@ using DevExpress.Blazor;
 
 namespace ObjectClasses
 {
-    public class Deliverable
-    {
-        public string CourseCode {get; set;} =  " ";
-        public string Task { get; set; } = " ";
-        public DateTime DueDate { get; set; } = DateTime.Now.Date;
-        public string AdditionalNotes { get; set; } = " ";
-        public bool IsDone { get; set; } = false;
+    // public class Deliverable
+    // {
+    //     public string CourseCode {get; set;} =  " ";
+    //     public string Task { get; set; } = " ";
+    //     public DateTime DueDate { get; set; } = DateTime.Now.Date;
+    //     public string AdditionalNotes { get; set; } = " ";
+    //     public bool IsDone { get; set; } = false;
 
-        public Deliverable(string courseCode, string task, DateTime dueDate, string note)
-        {
-            CourseCode = courseCode;
-            Task = task;
-            DueDate = dueDate.Date;
-            AdditionalNotes = note;
-        }
-    }
+    //     public Deliverable(string courseCode, string task, DateTime dueDate, string note)
+    //     {
+    //         CourseCode = courseCode;
+    //         Task = task;
+    //         DueDate = dueDate.Date;
+    //         AdditionalNotes = note;
+    //     }
+    // }
 
     public class Courses
     {
