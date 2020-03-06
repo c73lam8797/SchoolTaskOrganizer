@@ -1,0 +1,99 @@
+﻿@page "/todo"
+<h3>ToDo</h3>
+
+<input @bind-value="newCategoryTitle" @bind-value:event="oninput" />
+<button type="button" @onclick="() => AddCategory()">Add a To Do Category</button>
+
+<table cellpadding="20">
+    @if (categories.Any())
+    {
+        <thead>
+        <th>Here are your tasks:</th>
+        </thead>
+    }
+    else
+    {
+        <thead>
+        <th>You currently do not have any tasks.</th>
+        </thead>
+    }
+
+
+    <tbody class="d-flex flex-wrap">
+        @foreach (Category category in categories)
+        {
+            <RadzenCard Style="width:400px;">
+        <td>
+            @if (categories.Any())
+            {
+            <tr>
+                <button type="button" class="close" @onclick="() => categories.Remove(category)" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2 contenteditable="@editable" @bind-value="category.Title" @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">@category.Title</h2>
+            </tr>
+
+            <tr>
+                @foreach (ToDoObject todos in category.ListToDos)
+                {
+                <tr>
+                    <button type="button" class="close" @onclick="() => category.ListToDos.Remove(todos)" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <table>
+                        <td><input type="checkbox" @bind="todos.IsDone" /></td>
+                        <td style="width: 80px"><p contenteditable="@editable" @bind-value="todos.ThingToDo" @bind-value:event="oninput" @onkeypress="@KeyPress" @onclick="@Clicked">@todos.ThingToDo</p></td>
+                    </table>
+                </tr>
+            }
+
+                <tr>
+                    <td><input placeholder="Add a New ToDo" @bind-value="@category.TempToDo" @bind-value:event="oninput" /></td>
+                    <td><button type="button" @onclick="() => AddToDo(category)"> Add </button></td>
+                </tr>
+                </tr>
+
+            }
+            </td>
+            </RadzenCard>
+        }
+        </tbody>
+    </table>
+
+    @code {
+
+        public bool editable = true;
+
+        void KeyPress(KeyboardEventArgs e)
+        {
+            if (e.Key == "Enter") { editable = false; }
+        }
+
+        void Clicked()
+        {
+            editable = true;
+        }
+
+        public string newCategoryTitle = " ";
+        public List<Category> categories = new List<Category>();
+
+
+        public void AddCategory()
+        {
+            if (!string.IsNullOrEmpty(newCategoryTitle))
+            {
+                categories.Add(new Category { Title = newCategoryTitle });
+                newCategoryTitle = " ";
+            }
+        }
+
+        public void AddToDo(Category category)
+        {
+            if (!string.IsNullOrEmpty(category.TempToDo))
+            {
+                category.ListToDos.Add(new ToDoObject { ThingToDo = category.TempToDo });
+                category.TempToDo = " ";
+            }
+        }
+    }

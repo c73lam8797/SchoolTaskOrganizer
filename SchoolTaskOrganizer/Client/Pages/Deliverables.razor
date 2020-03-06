@@ -1,0 +1,313 @@
+﻿@page "/deliverables"
+@inject HttpClient Http
+@using SchoolTaskOrganizer.Shared.Models
+
+<h3>Deliverables</h3>
+
+<button @onclick="() => DisplayCourseColourOptions()">Set Colours By Course</button>
+<button @onclick="() => DisplayForm()">Add a Deliverable</button>
+
+<!--Displaying the table-->
+@try
+{
+    @if (deliverables==null || deliverables.Count==0)
+    {
+        <p>You currently do not have any thing due.</p>
+    }
+    else if (deliverables != null)
+    {
+        @if (deliverables.Any())
+        { 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 5%">    </th>
+                    <th style="width: 5%">     </th>
+                    <th style="width: 15%">Course Code</th>
+                    <th style="width: 20%">Task</th>
+                    <th style="width: 10%">Due Date</th>
+                    <th style="width: 45%">Additional Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Deliverable deliverable in deliverables)
+                {
+                    <tr bgcolor="@CourseColours(deliverable.CourseCode)">
+                        <td>
+                            <RadzenButton Click="@(async () => await DeleteDeliverable(deliverable))" ButtonStyle="ButtonStyle.Secondary" Icon="highlight_off" />
+                        </td>
+                        <td><input type="checkbox" @bind="deliverable.IsDone" @onclick="() => StateHasChanged()" /></td>
+
+                        <td><p contenteditable="@editable" @bind-value="deliverable.CourseCode" @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e))" @onclick="@(async () => await EditDeliverable(deliverable))">              @deliverable.CourseCode</p></td>
+                        <td><p contenteditable="@editable" @bind-value="deliverable.Task" @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e))" @onclick="@(async () => await EditDeliverable(deliverable))">              @deliverable.Task</p></td>
+                        <td><p contenteditable="@editable" @bind-value="deliverable.DueDate" @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e))" @onclick="@(async () => await EditDeliverable(deliverable))" type="date">  @deliverable.DueDate.ToShortDateString()</p></td>
+                        <td><p contenteditable="@editable" @bind-value="deliverable.AdditionalNotes" @bind-value:event="oninput" @onkeypress="@((e) => KeyPress(e))" @onclick="@(async () => await EditDeliverable(deliverable))">              @deliverable.AdditionalNotes</p></td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+        }
+    }
+
+}
+catch (System.NullReferenceException) { }
+
+@* Displaying the Modal *@
+
+<div id="modal " class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Task</h5>
+                <button type="button" class="close" @onclick="()=>Close()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Course Code: " /> </div>
+                <div><input id="courseCode" placeholder="Course Code" @bind-value="newCoursecode" @bind-value:event="oninput" /></div>
+                <br />
+
+                <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Task: " /> </div>
+                <div> <input id="task" placeholder="Task" @bind-value="newTask" @bind-value:event="oninput" /> </div>
+                <br />
+
+                <div class="col-md-4 align-items-center d-flex"><RadzenLabel Text="Due Date: " /></div>
+                <div> <input id="duedate" type="date" placeholder="Due Date" @bind-value="newDueDate" @bind-value:event="oninput" /> </div>
+                <br />
+
+                <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Additional Notes: " /> </div>
+                <div> <input id="notes" placeholder="Additional Notes" @bind-value="newNote" @bind-value:event="oninput" /> </div>
+
+            </div>
+            <div class="modal-footer">
+                <RadzenButton Click="@((async () => await AddNewDeliverable()))" Text="Save" />
+                <RadzenButton Click="@(() => Close())" ButtonStyle="ButtonStyle.Secondary" Icon="highlight_off" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* Displaying Course Colour Options*@
+<div id="modal" class="modal @ModalClass2" tabindex="-1" role="dialog" style="display:@ModalDisplay2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Course Colours</h5>
+                <button type="button" class="close" @onclick="()=>CloseCourseColourOptions()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="numCourses" align="right">Number of Courses: </label>
+                <input type="number" id="numCourses" min="0" placeholder="Enter Number of Courses" @bind-value="NumberOfCourses" @bind-value:event="oninput" />
+                <button type="submit" @onclick="() => Initialize()"> Confirm</button>
+                <br />
+
+                <EditForm Model="@courses">
+                    @if (courses.Any())
+                    {
+                        @foreach (Courses course in courses)
+                        {
+                            <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Course Code: " /> </div>
+                            <div class="col-md-8"> <input id="course" placeholder="Course Code" @bind-value="course.CourseCode" @bind-value:event="oninput" /> </div>
+
+                            <div class="col-md-4 align-items-center d-flex"> <RadzenLabel Text="Colour: " /> </div>
+                            <div class="col-md-8"> <input name="Color Picker" type="color" @bind-value="course.Colour" @bind-value:event="oninput" /> </div>
+
+                            <br />
+                            <br />
+                        }
+                    }
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => CloseCourseColourOptions()">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+
+        //Everything below this is for the Course Colour Modal -----------------------------------------------------------
+    public string ModalDisplay2 = "none";
+    public string ModalClass2 = "";
+
+    public int NumberOfCourses = 0;
+    public int PrevInput = 0;
+
+
+    public List<Courses> courses = new List<Courses>();
+
+    public void Initialize()
+    {
+        if (NumberOfCourses - PrevInput < 0) //this means that the user wants to remove courses
+        {
+            for (int i = 0; i < Abs(NumberOfCourses - PrevInput); i++)
+            {
+                courses.RemoveAt(courses.Count - 1);
+                WriteLine(courses.Count);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < NumberOfCourses - PrevInput; i++) //user is adding more courses, by default with empty strings
+            {
+                courses.Add(new Courses("", ""));
+                WriteLine(courses.Count);
+            }
+        }
+
+        PrevInput = NumberOfCourses;
+    }
+
+    public void DisplayCourseColourOptions() //method uses a string to change the styling of the modal to "block", which is to show
+    {
+        ModalDisplay2 = "block;";
+        ModalClass2 = "Show";
+        StateHasChanged();
+    }
+
+    public void CloseCourseColourOptions()//method uses a string to change the styling of the modal to "none"
+    {
+        ModalDisplay2 = "none";
+        ModalClass2 = "";
+        StateHasChanged();
+    }
+
+    public string CourseColours(string code) //method is passed a course code associated with the deliverable displayed.
+    {
+        //searches through a list of courses; if the code matches one of the courses previously inputted by the user, it will return the colour associated with that course
+        foreach (Courses course in courses)
+        {
+            if (course.CourseCode == code) { return course.Colour; }
+        }
+        //otherwise, it returns a default colour of grey
+        return "grey";
+    }
+
+
+
+
+    //Everything below this is for the Deliverable Modal -----------------------------------------------------------
+    public string ModalDisplay = "none;";
+    public string ModalClass = "";
+
+
+    //initializing variables
+
+    public List<Deliverable> deliverables;
+
+    //placeholder variables, which is binded to the input in the form, and is used to initialize new Deliverable objects
+    //Deliverable newDeliverable;
+    string newCoursecode;
+    string newTask;
+    DateTime newDueDate = DateTime.Now;
+    string newNote;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetDeliverableItems();
+    }
+    
+    protected async Task GetDeliverableItems()
+    {
+        deliverables = await Http.GetJsonAsync<List<Deliverable>>("api/Deliverables");
+
+        if (deliverables != null) { Console.WriteLine(deliverables.Count); }
+
+    }
+
+    protected async Task AddNewDeliverable()
+    {
+        Deliverable temp = new Deliverable(newCoursecode, newTask, newDueDate, newNote);
+        await Http.PostJsonAsync("api/Deliverables", temp);
+        if (deliverables.Count != 0) { Console.WriteLine(deliverables.Count); }
+        ResetForm();
+        Close();
+        await GetDeliverableItems();
+
+    }
+
+    protected async Task EditDeliverable(Deliverable deliverable)
+    {
+        Clicked();
+        await Http.PutJsonAsync($"api/Deliverables/{deliverable.CourseCode}", deliverable);
+        await GetDeliverableItems();
+    }
+
+    protected async Task DeleteDeliverable(Deliverable deliverable)
+    {
+        await Http.DeleteAsync($"api/Deliverables/{deliverable.CourseCode}");
+        if (deliverables.Count != 0) { Console.WriteLine(deliverables.Count); }
+        await GetDeliverableItems();
+    }
+
+
+
+
+
+
+
+
+    public void DisplayForm() //method uses a string to change the styling of the modal to "block", which is to show
+    {
+        ModalDisplay = "block;";
+        ModalClass = "Show";
+        StateHasChanged();
+    }
+
+    public void Close() //method uses as string to change the styling of the modal display to none
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ResetForm();
+        StateHasChanged();
+    }
+
+    //private void AddDeliverable() //creates a new deliverable, and adds it a list of deliverables
+    //{
+    //    //adding deliverable to list
+    //    deliverables.Add(newDeliverable = new Deliverable(newCoursecode, newTask, newDueDate, newNote));
+
+    //    ResetForm();
+
+    //    //reloading page by closing the modal when a deliverable is added
+    //    Close();
+    //}
+
+    private void ResetForm() //method sets all the parameters in the form back to its default
+    {
+        //resetting the values
+        newCoursecode = " ";
+        newDueDate = DateTime.Now;
+        newTask = " ";
+        newNote = " ";
+    }
+
+    //private void Remove(Deliverable deliverable) //method removes a deliverable from the list
+    //{
+    //    deliverables.Remove(deliverable);
+    //}
+
+
+    //for edit on click
+    public bool editable = true;
+
+    void KeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") { editable = false; }
+    }
+
+    void Clicked()
+    {
+        editable = true;
+    }
+}
+

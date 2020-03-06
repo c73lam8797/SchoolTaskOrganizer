@@ -1,6 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/Identity" Path="C:\Users\charm\.nuget\packages\microsoft.aspnetcore.identity.ui\3.1.2\staticwebassets\V4\" />
-  <ContentRoot BasePath="_content/Blazor-State" Path="C:\Users\charm\.nuget\packages\blazor-state\3.2.0\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/DevExpress.Blazor" Path="C:\Users\charm\.nuget\packages\devexpress.blazor\19.2.4\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/Radzen.Blazor" Path="C:\Users\charm\.nuget\packages\radzen.blazor\2.3.2\build\..\staticwebassets\" />
-</StaticWebAssets>

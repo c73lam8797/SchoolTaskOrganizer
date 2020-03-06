@@ -1,0 +1,8 @@
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\bin\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.deps.json
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\bin\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.dll
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\obj\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.csprojAssemblyReference.cache
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\obj\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.AssemblyInfoInputs.cache
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\obj\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.AssemblyInfo.cs
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\bin\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.pdb
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\obj\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.dll
+C:\Users\charm\source\repos\SchoolTaskOrganizer\SchoolTaskOrganizer\Shared\obj\Debug\netstandard2.1\SchoolTaskOrganizer.Shared.pdb
