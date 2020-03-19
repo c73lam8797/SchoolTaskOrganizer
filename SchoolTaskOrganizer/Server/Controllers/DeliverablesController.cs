@@ -21,31 +21,14 @@ namespace SchoolTaskOrganizer.Server.Controllers
             _context = context;
         }
 
-        // GET: api/Deliverables
+        // GET:
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Deliverable>>> Get_deliverable()
         {
             return await _context._deliverable.ToListAsync();
         }
 
-        //// GET: api/Deliverables/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Deliverable>> GetDeliverable(string id)
-        //{
-        //    var deliverable = await _context._deliverable.FindAsync(id);
-
-        //    if (deliverable == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return deliverable;
-        //}
-
-
-        // PUT: api/Deliverables/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // PUT: 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDeliverable(string id, Deliverable deliverable)
         {
@@ -75,9 +58,7 @@ namespace SchoolTaskOrganizer.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Deliverables
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // POST: 
         [HttpPost]
         public async Task<ActionResult<Deliverable>> PostDeliverable(Deliverable deliverable)
         {
@@ -94,7 +75,7 @@ namespace SchoolTaskOrganizer.Server.Controllers
             return CreatedAtAction("GetDeliverable", new { id = deliverable.CourseCode }, deliverable);
         }
 
-        // DELETE: api/Deliverables/5
+        // DELETE:
         [HttpDelete("{id}")]
         public async Task<ActionResult<Deliverable>> DeleteDeliverable(string id)
         {

@@ -27,7 +27,7 @@ namespace SchoolTaskOrganizer.Server
             });
 
             services.AddDbContext<DeliverableContext>(opt => 
-                opt.UseInMemoryDatabase("_deliverable"));
+                opt.UseSqlServer("Data Source=(local);Initial Catalog=TaskOrganizer;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddDevExpressBlazor();
             services.AddCors(); 
@@ -51,6 +51,7 @@ namespace SchoolTaskOrganizer.Server
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
